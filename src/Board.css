@@ -1,0 +1,54 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+#root {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
+}
+
+.board{
+  width: 40rem;
+  height: 40rem;
+  border: 1px solid #333;
+  display: grid;
+  grid-template-columns: repeat(8, 1fr);
+  grid-auto-rows: 5rem;
+}
+
+.board > .square:nth-child(even){
+  background: #333;
+}
+
+.square{
+  display:flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.piece{
+
+}
+
+.queenw{
+  background: url('./img/queen-w.png') no-repeat center center/cover;;
+}
+.kingw{
+  background: url('./img/king-w.png') no-repeat center center/cover;;
+}
+.bishopw{
+  background: url('./img/bishop-w.png') no-repeat center center/cover;;
+}
+.rookw{
+  background: url('./img/queen-w.png') no-repeat center center/cover;;
+}
+.knightw{
+  background: url('./img/knight-w.png') no-repeat center center/cover;;
+}
+.pawnw{
+  background: url('./img/pawn-w.png') no-repeat center center/cover;;
+}
