@@ -29,26 +29,3 @@
   align-items: center;
   justify-content: center;
 }
-
-.piece{
-
-}
-
-.queenw{
-  background: url('./img/queen-w.png') no-repeat center center/cover;;
-}
-.kingw{
-  background: url('./img/king-w.png') no-repeat center center/cover;;
-}
-.bishopw{
-  background: url('./img/bishop-w.png') no-repeat center center/cover;;
-}
-.rookw{
-  background: url('./img/queen-w.png') no-repeat center center/cover;;
-}
-.knightw{
-  background: url('./img/knight-w.png') no-repeat center center/cover;;
-}
-.pawnw{
-  background: url('./img/pawn-w.png') no-repeat center center/cover;;
-}

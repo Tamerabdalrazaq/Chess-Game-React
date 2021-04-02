@@ -1,9 +1,23 @@
-import React, {useState, useEffect} from 'react'
+import React, {useRef, useState}from 'react'
 
-function Piece({type}) {
+function Piece({type, onClick}) {
+  const [dragged, setDragged] = useState(false)
+  const pieceRef = useRef()
   return (
     <div className="piece">
-        <img src={require(`../img/queen-w.png`).default} />
+        {type && 
+        <img ref={pieceRef}
+        style={{opacity: dragged? 0: 1}}
+        alt={type}
+        src={require(`../../public/static/img/${type}.png`).default}
+        onDragStart={(e) => {
+          setDragged(true)
+        }}
+        onDragEnd = {(e) => {
+          setDragged(false);
+          console.log(e);
+        }}
+        />}
     </div>
   );
 }
