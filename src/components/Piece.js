@@ -9,7 +9,7 @@ function Piece({type, onClick}) {
         <img ref={pieceRef}
         style={{opacity: dragged? 0: 1}}
         alt={type}
-        src={require(`../../public/static/img/${type}.png`).default}
+        src={require(`../../public/static/img/${type.key}.png`).default}
         onDragStart={(e) => {
           setDragged(true)
         }}
