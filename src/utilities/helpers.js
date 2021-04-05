@@ -4,18 +4,18 @@ import Queen from '../pieces/queen'
 import King from '../pieces/king'
 import Knight from '../pieces/knight'
 
-function getPieceObject(key, color, position){
+function getPieceObject(key, color, position, player){
     switch(key){
         case('r'):
-            return (new Rook(color, position, `r-${color}`))
+            return (new Rook(color, position, `r-${color}`, player))
         case('b'):
-            return (new Bishop(color, position, `b-${color}`))
+            return (new Bishop(color, position, `b-${color}`, player))
         case ('q'):
-            return (new Queen(color, position, `q-${color}`))
+            return (new Queen(color, position, `q-${color}`, player))
         case ('k'):
-            return (new King(color, position, `k-${color}`))
+            return (new King(color, position, `k-${color}`, player))
         case ('n'):
-            return (new Knight(color, position, `n-${color}`))
+            return (new Knight(color, position, `n-${color}`, player))
         default:
             return null
     }

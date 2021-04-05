@@ -2,9 +2,11 @@ import Piece from './piece'
 import {getDiagonalMovement} from '../utilities/movement'
 
 class Bishop extends Piece{
-    getLegalMoves(board){
+
+    getPossibleMoves(board){
         return getDiagonalMovement(board, this.position, this.color);
     }
+
 }
 
 export default Bishop;

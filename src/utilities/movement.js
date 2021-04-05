@@ -1,5 +1,18 @@
 import {notBeyondMatrix} from '../utilities/helpers'
 
+function getKingMovement(board, position, color){
+    let legalMoves = [];
+        const [row, col] = position
+        for(let x = -1; x<=1; x++){
+            for(let y = -1; y<=1; y++){
+                if(notBeyondMatrix(row+x, col+y))
+                if(!board[row+x][col+y] || board[row+x][col+y].color !== color)
+                    legalMoves.push([row+x,col+y]);
+            }
+        }
+        return legalMoves;
+}
+
 function getVerticalMovement(board, position, color){
     let legalMoves = [];
     const [row, col] = position
@@ -94,4 +107,4 @@ function isValidSquare(row, col, board, color){
     return (notBeyondMatrix(row, col) && (!board[row][col] || board[row][col].color !== color))
 }
 
-export {getVerticalMovement, getDiagonalMovement, getKnightMovement}
+export {getVerticalMovement, getDiagonalMovement, getKnightMovement, getKingMovement}

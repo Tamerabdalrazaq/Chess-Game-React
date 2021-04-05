@@ -1,6 +1,6 @@
 import React, {useRef, useState}from 'react'
 
-function Piece({type, onClick}) {
+function Piece({type}) {
   const [dragged, setDragged] = useState(false)
   const pieceRef = useRef()
   return (
@@ -10,13 +10,10 @@ function Piece({type, onClick}) {
         style={{opacity: dragged? 0: 1}}
         alt={type}
         src={require(`../../public/static/img/${type.key}.png`).default}
-        onDragStart={(e) => {
-          setDragged(true)
-        }}
-        onDragEnd = {(e) => {
-          setDragged(false);
-          console.log(e);
-        }}
+        onDragStart={(e) => 
+          setDragged(false)}
+        onDragEnd = {(e) =>
+          setDragged(false)}
         />}
     </div>
   );
