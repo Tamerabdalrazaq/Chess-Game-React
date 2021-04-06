@@ -103,8 +103,22 @@ function getKnightMovement(board, position, color){
     return legalMoves;
 }
 
+function getPawnMovement(board, position, color, firstMove){
+    let legalMoves = [];
+    const [row, col] = position;
+    const pawnDirection = (color === 'w' ? -1:1);
+    if (!board[row+(1*pawnDirection)][col]) legalMoves.push([row+(1*pawnDirection), col]);
+    if (firstMove && !board[row+(2*pawnDirection)][col]) legalMoves.push([row+(2*pawnDirection), col]);
+    if (isValidPawnEat(row+(1*pawnDirection), col+1, board, color)) legalMoves.push([row+(1*pawnDirection), col+1]);
+    if (isValidPawnEat(row+(1*pawnDirection), col+-1, board, color)) legalMoves.push([row+(1*pawnDirection), col+-1]);
+    return legalMoves;
+}
+
 function isValidSquare(row, col, board, color){
     return (notBeyondMatrix(row, col) && (!board[row][col] || board[row][col].color !== color))
 }
 
-export {getVerticalMovement, getDiagonalMovement, getKnightMovement, getKingMovement}
+function isValidPawnEat(row, col, board, color){
+    return (notBeyondMatrix(row, col) && board[row][col] && board[row][col].color !== color);
+}
+export {getVerticalMovement, getDiagonalMovement, getKnightMovement, getKingMovement, getPawnMovement}

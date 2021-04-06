@@ -4,7 +4,7 @@ import {getPieceObject} from '../utilities/helpers'
 import {createVirtualBoard} from '../utilities/virtualBoard'
 
 const NUM_OF_ROWS = 8;
-const INITIAL_SETUP = 'r n b q k'
+const INITIAL_SETUP = 'r n b q k b n r'
 
 function Board({player_black, player_white, gameStart}) {
   const [boardState, setBoardState] = useState(Array(NUM_OF_ROWS).fill(Array(NUM_OF_ROWS).fill(null)));
@@ -30,18 +30,20 @@ function Board({player_black, player_white, gameStart}) {
 
   function handleSquareClick(type, position) {
     if(!gameStart) return false;
-    if(currentPiece && currentLegalMoves.find(move => (move.join('') === position.join('') ))){
-      const updatedBoard = updateState([
-        {row: currentPiece.row, col:currentPiece.col, type: null},
-        {row: position[0], col:position[1], type: currentPiece.type},
-      ])
-      setBoardState(updatedBoard);
-      if(type){
-        if(playerTurn === 'w') player_black.kill(position);
-        else player_white.kill(position);
+    if(currentPiece){
+      if(currentLegalMoves.find(move => (move.join('') === position.join('') ))){
+        const updatedBoard = updateState([
+          {row: currentPiece.row, col:currentPiece.col, type: null},
+          {row: position[0], col:position[1], type: currentPiece.type},
+        ])
+        setBoardState(updatedBoard);
+        if(type){
+          if(playerTurn === 'w') player_black.kill(position);
+          else player_white.kill(position);
+        }
+        checkEndGame(updatedBoard);
+        flipTurns();
       }
-      checkEndGame(updatedBoard);
-      flipTurns();
       setCurrentPiece(null);
       setCurrentLegalMoves([])
     }

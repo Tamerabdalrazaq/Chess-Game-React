@@ -3,6 +3,7 @@ import Bishop from '../pieces/bishop'
 import Queen from '../pieces/queen'
 import King from '../pieces/king'
 import Knight from '../pieces/knight'
+import Pawn from '../pieces/pawn'
 
 function getPieceObject(key, color, position, player){
     switch(key){
@@ -16,6 +17,8 @@ function getPieceObject(key, color, position, player){
             return (new King(color, position, `k-${color}`, player))
         case ('n'):
             return (new Knight(color, position, `n-${color}`, player))
+        case ('p'):
+            return (new Pawn(color, position, `p-${color}`, player))
         default:
             return null
     }
