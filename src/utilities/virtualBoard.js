@@ -39,4 +39,4 @@ function getVirtualKingPosition(virtualBoard, color){
         }
     }
 }
-export {isVirtualBoardInCheck}
+export {isVirtualBoardInCheck, createVirtualBoard}

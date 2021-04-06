@@ -1,23 +1,19 @@
 import React, {useState, useEffect} from 'react'
-import './Board.css'
-import Square from './components/Square'
-import {getPieceObject} from './utilities/helpers'
-import Player from './Player'
+import Square from './Square'
+import {getPieceObject} from '../utilities/helpers'
+import {createVirtualBoard} from '../utilities/virtualBoard'
 
 const NUM_OF_ROWS = 8;
 const INITIAL_SETUP = 'r n b q k'
-const player_black = new Player('b')
-const player_white = new Player('w', '5:00')
 
-function Board() {
+function Board({player_black, player_white, gameStart}) {
   const [boardState, setBoardState] = useState(Array(NUM_OF_ROWS).fill(Array(NUM_OF_ROWS).fill(null)));
   const [currentPiece, setCurrentPiece] = useState(null)
   const [currentLegalMoves, setCurrentLegalMoves] = useState([])
   const [playerTurn, setPlayerTurn] = useState('w')
-  
-  useEffect(() => {
-    if(playerTurn === 'w'){}
-  }, [playerTurn])
+
+  console.log('board called');
+
   useEffect(() => {
     const initialPieces = INITIAL_SETUP.split(' ');
     let boardSetupUpdate = [];
@@ -33,20 +29,19 @@ function Board() {
   }, [])
 
   function handleSquareClick(type, position) {
-    if(currentPiece){
-      if(currentLegalMoves.find(move => (move.join('') === position.join('') ))){
-        const updatedBoard = updateState([
-          {row: currentPiece.row, col:currentPiece.col, type: null},
-          {row: position[0], col:position[1], type: currentPiece.type},
-        ])
-        setBoardState(updatedBoard);
-        if(type){
-          if(playerTurn === 'w') player_black.kill(position);
-          else player_white.kill(position);
-        }
-        checkEndGame(updatedBoard);
-        setPlayerTurn(playerTurn === 'w' ? 'b':'w')
+    if(!gameStart) return false;
+    if(currentPiece && currentLegalMoves.find(move => (move.join('') === position.join('') ))){
+      const updatedBoard = updateState([
+        {row: currentPiece.row, col:currentPiece.col, type: null},
+        {row: position[0], col:position[1], type: currentPiece.type},
+      ])
+      setBoardState(updatedBoard);
+      if(type){
+        if(playerTurn === 'w') player_black.kill(position);
+        else player_white.kill(position);
       }
+      checkEndGame(updatedBoard);
+      flipTurns();
       setCurrentPiece(null);
       setCurrentLegalMoves([])
     }
@@ -59,12 +54,7 @@ function Board() {
   }
 
   function updateState(updatesArray){
-    let stateCopy = [];
-    for(let x = 0; x< NUM_OF_ROWS; x++){
-      stateCopy[x] = [];
-      for(let y = 0; y< NUM_OF_ROWS; y++)
-        stateCopy[x].push(boardState[x][y]);
-    }
+    let stateCopy = createVirtualBoard(boardState);
     updatesArray.forEach(update => {
       stateCopy[update.row][update.col] = update.type;
       update.type?.setPosition([update.row, update.col])
@@ -74,18 +64,22 @@ function Board() {
   
   function checkEndGame(board){
     const currentPlayer = playerTurn === 'w' ? player_black:player_white;
-      if(currentPlayer.isInCheck([player_white, player_black], board)
-      && !currentPlayer.getAllLegalMoves(board).length){
-        alert('white won!')
-      }
-      if(!currentPlayer.isInCheck([player_white, player_black], board)
-      && !currentPlayer.getAllLegalMoves(board).length){
-        alert('Stale Mate')
-      }
+    const isInCheck = (currentPlayer.isInCheck([player_white, player_black], board))
+    const numOfLegalMoves = currentPlayer.getAllLegalMoves(board).length;
+    if(isInCheck && !numOfLegalMoves) alert(`${currentPlayer} checkmated`)
+    if(!isInCheck && !numOfLegalMoves) alert(`STALEMATE`)
+  }
+
+  function flipTurns(){
+    const current = playerTurn === 'w' ? player_white:player_black; 
+    const next = playerTurn === 'w' ? player_black:player_white;
+    current.stopTimer();
+    next.startTimer();
+    setPlayerTurn(playerTurn === 'w' ? 'b':'w');
+    
   }
 
   return (
-    <div className="container">
       <div className="board">
         {boardState.map((row, rowIndex) => row.map((col, colIndex) =>
           <Square onClick={handleSquareClick} key={`${rowIndex}-${colIndex}`}
@@ -96,8 +90,6 @@ function Board() {
           />
         ))}
       </div>
-      <div className={playerTurn === 'w' ? 'white-turn':'black-turn'}></div>
-    </div>
   );
 }
 

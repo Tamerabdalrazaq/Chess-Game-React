@@ -1,18 +1,17 @@
 import King from './pieces/king'
 export default class Player {
-    constructor(color, time='10:00', alivePieces=[],){
+    constructor(color, updateFunction, time=60, alivePieces=[],){
         this.color = color;
         this.time = time;
         this.alivePieces = alivePieces; 
         this.castled = false;
         this.inCheck = false;
+        this.timer = null;
     }
     getAllLegalMoves(board){
         let possibleMoves = [];
-        console.log(board);
         console.log(this.alivePieces);
         this.alivePieces.forEach(piece => {
-            console.log(piece.getLegalMoves(board));
             piece.getLegalMoves(board).forEach(move => possibleMoves.push(move))
         });
         console.log(this.color);
@@ -45,5 +44,17 @@ export default class Player {
 
     getKing(){
         return this.alivePieces.find(piece => piece instanceof King)
+    }
+
+    startTimer(){
+        this.timer = setInterval(() => {
+            this.time = this.time - 1;
+            this.updateFunction(this.time)
+        }, 1000)
+    }
+
+    stopTimer(){
+        clearInterval(this.timer);
+        this.timer = null;
     }
 }
