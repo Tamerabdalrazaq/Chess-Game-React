@@ -9,7 +9,15 @@ export default class Player {
     }
     getAllLegalMoves(board){
         let possibleMoves = [];
-        this.alivePieces.forEach(piece => possibleMoves.push(piece.getLegalMoves(board)));
+        console.log(board);
+        console.log(this.alivePieces);
+        this.alivePieces.forEach(piece => {
+            console.log(piece.getLegalMoves(board));
+            piece.getLegalMoves(board).forEach(move => possibleMoves.push(move))
+        });
+        console.log(this.color);
+        console.log(possibleMoves);
+        console.log('-------------');
         return (possibleMoves);
     }
 
@@ -21,8 +29,7 @@ export default class Player {
 
     isInCheck(players, board){
         let enemy = this.color === 'w' ?  players[1]: players[0];
-        let enemyMoves = [];
-        enemy.getAllLegalMoves(board).forEach(pieceMoves => pieceMoves.forEach(move => enemyMoves.push(move)))
+        let enemyMoves = enemy.getAllLegalMoves(board);
         const kingPosition = this.getKing().position.join('')
         if(enemyMoves.find(move => kingPosition === move.join(''))){
             this.inCheck = true;

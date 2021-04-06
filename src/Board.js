@@ -5,7 +5,7 @@ import {getPieceObject} from './utilities/helpers'
 import Player from './Player'
 
 const NUM_OF_ROWS = 8;
-const INITIAL_SETUP = 'r n b q k b n r'
+const INITIAL_SETUP = 'r n b q k'
 const player_black = new Player('b')
 const player_white = new Player('w', '5:00')
 
@@ -14,7 +14,7 @@ function Board() {
   const [currentPiece, setCurrentPiece] = useState(null)
   const [currentLegalMoves, setCurrentLegalMoves] = useState([])
   const [playerTurn, setPlayerTurn] = useState('w')
-  console.log(boardState);
+  
   useEffect(() => {
     if(playerTurn === 'w'){}
   }, [playerTurn])
@@ -29,21 +29,22 @@ function Board() {
       player_white.alivePieces.push(piece_white);
       player_black.alivePieces.push(piece_black);
     })
-    updateState(boardSetupUpdate);
+    setBoardState(updateState(boardSetupUpdate))
   }, [])
 
   function handleSquareClick(type, position) {
     if(currentPiece){
       if(currentLegalMoves.find(move => (move.join('') === position.join('') ))){
-        updateState([
+        const updatedBoard = updateState([
           {row: currentPiece.row, col:currentPiece.col, type: null},
           {row: position[0], col:position[1], type: currentPiece.type},
         ])
+        setBoardState(updatedBoard);
         if(type){
           if(playerTurn === 'w') player_black.kill(position);
           else player_white.kill(position);
         }
-        checkEndGame();
+        checkEndGame(updatedBoard);
         setPlayerTurn(playerTurn === 'w' ? 'b':'w')
       }
       setCurrentPiece(null);
@@ -68,16 +69,19 @@ function Board() {
       stateCopy[update.row][update.col] = update.type;
       update.type?.setPosition([update.row, update.col])
     })
-    setBoardState(stateCopy);
+    return stateCopy;
   }
   
-  function checkEndGame(){
-    if(playerTurn === 'w'){
-      player_black.isInCheck([player_white, player_black], boardState);
-    }
-    else{
-      player_white.isInCheck([player_white, player_black], boardState);
-    }
+  function checkEndGame(board){
+    const currentPlayer = playerTurn === 'w' ? player_black:player_white;
+      if(currentPlayer.isInCheck([player_white, player_black], board)
+      && !currentPlayer.getAllLegalMoves(board).length){
+        alert('white won!')
+      }
+      if(!currentPlayer.isInCheck([player_white, player_black], board)
+      && !currentPlayer.getAllLegalMoves(board).length){
+        alert('Stale Mate')
+      }
   }
 
   return (
