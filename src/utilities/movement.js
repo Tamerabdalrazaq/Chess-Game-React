@@ -103,12 +103,12 @@ function getKnightMovement(board, position, color){
     return legalMoves;
 }
 
-function getPawnMovement(board, position, color, firstMove){
+function getPawnMovement(board, position, color, moves){
     let legalMoves = [];
     const [row, col] = position;
     const pawnDirection = (color === 'w' ? -1:1);
     if (!board[row+(1*pawnDirection)][col]) legalMoves.push([row+(1*pawnDirection), col]);
-    if (firstMove && !board[row+(2*pawnDirection)][col]) legalMoves.push([row+(2*pawnDirection), col]);
+    if (moves < 2 && !board[row+(2*pawnDirection)][col]) legalMoves.push([row+(2*pawnDirection), col]);
     if (isValidPawnEat(row+(1*pawnDirection), col+1, board, color)) legalMoves.push([row+(1*pawnDirection), col+1]);
     if (isValidPawnEat(row+(1*pawnDirection), col+-1, board, color)) legalMoves.push([row+(1*pawnDirection), col+-1]);
     return legalMoves;

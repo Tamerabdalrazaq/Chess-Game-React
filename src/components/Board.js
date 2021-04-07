@@ -4,27 +4,34 @@ import {getPieceObject} from '../utilities/helpers'
 import {createVirtualBoard} from '../utilities/virtualBoard'
 
 const NUM_OF_ROWS = 8;
-const INITIAL_SETUP = 'r n b q k b n r'
+const INITIAL_SETUP = 'r n b k q b n r'
 
 function Board({player_black, player_white, gameStart}) {
   const [boardState, setBoardState] = useState(Array(NUM_OF_ROWS).fill(Array(NUM_OF_ROWS).fill(null)));
   const [currentPiece, setCurrentPiece] = useState(null)
   const [currentLegalMoves, setCurrentLegalMoves] = useState([])
   const [playerTurn, setPlayerTurn] = useState('w')
-
-  console.log('board called');
-
+  console.log(boardState);
   useEffect(() => {
     const initialPieces = INITIAL_SETUP.split(' ');
     let boardSetupUpdate = [];
     initialPieces.forEach((key, index) =>{
-      const piece_white = getPieceObject(key, 'w', [0, index], player_white);
-      const piece_black = getPieceObject(key,'b', [0, index], player_white)
+      const piece_white = getPieceObject(key, 'w', [NUM_OF_ROWS-1, index], player_white);
+      const piece_black = getPieceObject(key,'b', [0, index], player_black)
+      const pawn_white = getPieceObject('p', 'w', [NUM_OF_ROWS-1, index], player_white);
+      const pawn_black = getPieceObject('p','b', [0, index], player_black)
       boardSetupUpdate.push({row: NUM_OF_ROWS-1, col:index, type: piece_white})
       boardSetupUpdate.push({row: 0, col:index, type: piece_black})
+      boardSetupUpdate.push({row: NUM_OF_ROWS-2, col:index, type: pawn_white})
+      boardSetupUpdate.push({row: 1, col:index, type: pawn_black})
       player_white.alivePieces.push(piece_white);
       player_black.alivePieces.push(piece_black);
+      player_white.alivePieces.push(pawn_white);
+      player_black.alivePieces.push(pawn_black);
     })
+    for(let x = 0; x<8; x++){
+
+    }
     setBoardState(updateState(boardSetupUpdate))
   }, [])
 

@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from 'react'
 import Board from './Board'
 import Player from '../Player'
+import PieceCemetery from './PieceCemetery'
+
 import '../Board.css'
 
 const player_black = new Player('b', 60);
@@ -19,10 +21,15 @@ function Game() {
         <div className="container">
             <Board player_black={player_black} player_white={player_white} gameStart={gameStart}/>
             <div className='menu'>
-                <PlayerView player={player_white}/>
-                <button className="btn-start"
-                onClick={() => startButton()}>START GAME</button>
-                <PlayerView player={player_black}/>
+                <div>
+                    <PlayerView player={player_black} className="player-black"/>
+                    <PieceCemetery player = {player_black} />
+                </div>
+                {!gameStart && <button className="btn-start" onClick={() => startButton()}>START GAME</button>}
+                <div>
+                    <PieceCemetery player = {player_white} />
+                    <PlayerView player={player_white} className="player-white"/>
+                </div>
             </div>
         </div>
     )
@@ -30,10 +37,10 @@ function Game() {
 
 function PlayerView({player}){
     const [pTimer, setPTimer] = useState(player.time);
-    useEffect(() => player.updateFunction = setPTimer , [])
+    useEffect(() => player.updateTimerFunction = setPTimer , [player])
     return (
         <div className="div-player">
-            <h1>Name</h1>
+            <h1>Player</h1>
             <h1>{pTimer}</h1>
         </div>
     )
