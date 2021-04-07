@@ -4,14 +4,13 @@ import {getPieceObject} from '../utilities/helpers'
 import {createVirtualBoard} from '../utilities/virtualBoard'
 
 const NUM_OF_ROWS = 8;
-const INITIAL_SETUP = 'r n b k q b n r'
+const INITIAL_SETUP = 'r n b q k b n r'
 
 function Board({player_black, player_white, gameStart}) {
   const [boardState, setBoardState] = useState(Array(NUM_OF_ROWS).fill(Array(NUM_OF_ROWS).fill(null)));
   const [currentPiece, setCurrentPiece] = useState(null)
   const [currentLegalMoves, setCurrentLegalMoves] = useState([])
   const [playerTurn, setPlayerTurn] = useState('w')
-  console.log(boardState);
   useEffect(() => {
     const initialPieces = INITIAL_SETUP.split(' ');
     let boardSetupUpdate = [];

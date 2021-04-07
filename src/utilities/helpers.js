@@ -28,4 +28,8 @@ function notBeyondMatrix(row, col){
     return (row >= 0 && row < 8 && col >= 0 && col < 8);
 }
 
-export {getPieceObject, notBeyondMatrix}
+
+function toHumanTime(s){
+    return (s-(s%=60))/60+(9<s?':':':0')+s
+}
+export {getPieceObject, notBeyondMatrix, toHumanTime}

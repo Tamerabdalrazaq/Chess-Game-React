@@ -2,8 +2,11 @@
 
 # dependencies
 /node_modules
+/build
 /.pnp
 .pnp.js
+.gitignore
+./netlify
 
 # testing
 /coverage

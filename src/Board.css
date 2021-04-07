@@ -1,5 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Londrina+Solid&display=swap');
-* {
+@import url('https://fonts.googleapis.com/css2?family=Kanit:wght@500&display=swap');* {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
@@ -10,7 +9,7 @@
   align-items: center;
   justify-content: center;
   height: 100vh;
-  background: #444;
+  background: rgb(225, 236, 222);
 }
 
 .container{
@@ -19,41 +18,85 @@
   align-items: center;
 }
 
+aside{
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  margin-left: 2rem;
+}
+
 .menu{
-  width: 10rem;
-  height: 40rem;
-  background: #333;
+  width: 30rem;
+  height: 15rem;
+  background: rgb(255, 255, 255);;
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: space-between;
+  justify-content: center;
   padding: .6rem;
-  font-family: 'Londrina Solid', cursive;
+  font-family: 'Kanit', sans-serif;
+  box-shadow: rgba(102, 255, 88, 0.16) 0px 3px 6px, rgba(0, 0, 0, 0.23) 0px 3px 6px;
+}
+
+.custom-game{
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.menu .games{
+  padding: .8rem 2rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.menu .games i{
+  margin: 1rem;
+  border: 1px solid #333;
+  padding: .7rem 2.2rem;
+  font-size: 2rem;
+  border-radius: 2px;
+  cursor: pointer;
+}
+
+.menu .games i:hover{
+  background: #eee;
+}
+
+.selected{
+  background: #eee;
 }
 
 .menu .btn-start:hover{
-  background: #555;
-  color: #ccc;
+  background: rgb(109, 208, 157);
+  color: rgb(250, 250, 250);
 }
 .menu .btn-start{
-  width: 100%;
-  padding: .4rem 1rem;
-  background: #fff;
+  color: #fff;
+  font-size: 1.5rem;
+  padding: .8rem 3rem;
+  background: rgb(80, 157, 117);
   border-radius: 5px;
   border: none;
   cursor: pointer;
-  font-family: 'Londrina Solid', cursive;
+  font-family: 'Kanit', sans-serif;
 }
 
-.menu > div{
-  display: flex;
-  flex-direction: column;
-  align-items: center;
+.timer{
+  box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px;
+  background: rgb(248, 248, 248);
+  padding: .5rem 2.4rem;
+  color: #555;
+  font-size: 1.6rem;
 }
 
 .piece-cemetry{
   display: grid;
-  grid-template-columns: repeat(4,1fr);
+  width: 100%;
+  grid-template-columns: repeat(8,3rem);
+  grid-auto-rows: 3rem;
   margin: 1rem;
 }
 
@@ -73,11 +116,12 @@
   display:flex;
   align-items: center;
   justify-content: center;
+  position: relative;
 }
 
 .square .piece{
-  width: 80%;
-  height: 80%;
+  width: 90%;
+  height: 90%;
 }
 
 .square img{
@@ -85,8 +129,15 @@
   height: 100%;
 }
 
-.legal-move{
+.legal-move::after{
+  content: '';
+  position: absolute;
+  top: calc(50% - 10px);
+  left: calc(50% - 10px);
   background:rgb(100, 189, 240)!important;
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
 }
 
 .white-turn, .black-turn{

@@ -1,4 +1,6 @@
 import King from './pieces/king'
+import {toHumanTime} from './utilities/helpers'
+
 export default class Player {
     constructor(color, time=60, alivePieces=[]){
         this.color = color;
@@ -9,20 +11,19 @@ export default class Player {
         this.timer = null;
         this.deadPieces = [];
     }
+
     getAllLegalMoves(board){
-        let possibleMoves = [];
+        let legalMoves = [];
         this.alivePieces.forEach(piece => {
-            piece.getLegalMoves(board).forEach(move => possibleMoves.push(move))
+            piece.getLegalMoves(board).forEach(move => legalMoves.push(move))
         });
-        return (possibleMoves);
+        return (legalMoves);
     }
 
     kill(position){
         let index = this.alivePieces.findIndex(piece => 
             piece.position.join('') === position.join(''))
-        console.log((this.alivePieces));
         this.deadPieces.push(this.alivePieces[index].key);
-        console.log(this.deadPieces);
         this.updateCemetry([...this.deadPieces]);
         this.alivePieces.splice(index, 1);
     }
@@ -48,12 +49,17 @@ export default class Player {
     startTimer(){
         this.timer = setInterval(() => {
             this.time = this.time - 1;
-            this.updateTimerFunction(this.time)
+            this.updateTimerFunction(toHumanTime(this.time))
         }, 1000)
     }
 
     stopTimer(){
         clearInterval(this.timer);
         this.timer = null;
+    }
+
+    editTimer(time){
+        this.updateTimerFunction(toHumanTime(time));
+        this.time = time;
     }
 }
