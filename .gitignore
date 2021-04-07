@@ -5,8 +5,8 @@
 /build
 /.pnp
 .pnp.js
-.gitignore
-./netlify
+/.gitignore
+/netlify
 
 # testing
 /coverage
