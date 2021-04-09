@@ -5,13 +5,16 @@ import PieceCemetery from './PieceCemetery'
 import '../Board.css'
 
 const gameTypes = [60, 300, 600]
+const rowKeys = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h']
 
 const player_black = new Player('b', 60);
 const player_white = new Player('w', 60);
 
 function App() {
     const [gameStart, setGameStart] = useState(false);
-    const [gameType, setGameType] = useState(0)
+    const [gameType, setGameType] = useState(0);
+    const [movesHistory, setMovesHistory] = useState([])
+
     function startButton(){
         setGameStart(true);
         if(!gameStart) player_white.startTimer()
@@ -21,14 +24,23 @@ function App() {
         player_black.editTimer(gameTypes[gameType])
         player_white.editTimer(gameTypes[gameType])
     }, [gameType])
+
+    function updateMovementHistory(from, to){
+        let movesHistoryCopy = JSON.parse(JSON.stringify(movesHistory));
+        movesHistoryCopy.push([`${from.type}: ${rowKeys[from.col]}${from.row}`, `${rowKeys[to.col]}${to.row}`]);
+        setMovesHistory(movesHistoryCopy);
+    }
     return (
         <div className="container">
-            <Board player_black={player_black} player_white={player_white} gameStart={gameStart}/>
+            <Board player_black={player_black} player_white={player_white} gameStart={gameStart}
+            updateMovementHistory={updateMovementHistory}/>
+
+            
             <aside>
                 <PieceCemetery player = {player_black} />
                 <PlayerTimer player={player_black} className="player-black"/>
                 <div className='menu'>
-                    {!gameStart && 
+                    {!gameStart ? 
                     (<div className="custom-game">
                         <div className="games">
                             <i className={`fas fa-brain ${gameType === 0 ? 'selected': ''}`}
@@ -42,7 +54,31 @@ function App() {
                             onClick={() => setGameType(2)}></i>
                         </div>
                         <button className="btn-start" onClick={() => startButton()}>PLAY</button>
-                    </div>)}
+                    </div>): 
+                    (
+                    <div id="table-wrapper">
+                    <div id="table-scroll">
+                        <table id="table">
+                        <thead>
+                            <tr>
+                                <th>Move Num</th>
+                                <th>From Square</th>
+                                <th>To Square</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {movesHistory.map((move, index) => (
+                                <tr key = {index}>
+                                    <td>{index}</td>
+                                    <td>{move[0]}</td>
+                                    <td>{move[1]}</td>
+                                </tr>
+                            ))}
+                        </tbody>
+                    </table>
+                </div>
+                </div>
+                    )}
                 </div>
                 <PlayerTimer player={player_white} className="player-white"/>
                 <PieceCemetery player = {player_white} />

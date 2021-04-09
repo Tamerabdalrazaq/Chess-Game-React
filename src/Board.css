@@ -98,6 +98,7 @@ aside{
   grid-template-columns: repeat(8,3rem);
   grid-auto-rows: 3rem;
   margin: 1rem;
+  min-height: 3rem;
 }
 
 .piece-cemetry img{
@@ -154,4 +155,65 @@ aside{
 
 .white-turn{
   background: #EEEED2;
+}
+
+
+/* TABLE */
+
+
+table {
+  border-collapse: collapse;
+  margin: 0 auto;
+  font-size: 0.9em;
+  max-width: 400px;
+  border-radius: 5px 5px 0 0;
+  overflow: hidden;
+  box-shadow: 0 0 20px rgba(0, 0, 0, 0.15);
+}
+
+table thead tr {
+  background-color: #009879;
+  color: #ffffff;
+  text-align: left;
+  font-weight: bold;
+}
+
+table th,
+table td {
+  padding: 12px 15px;
+}
+
+table tr {
+  border-bottom: 1px solid #dddddd;
+  color: #787878;
+}
+
+table tr:nth-of-type(even) {
+  background-color: #f3f3f3;
+}
+
+table tr:last-of-type {
+  border-bottom: 2px solid #009879;
+}
+
+table tr.active-row {
+  font-weight: bold;
+  color: #009879;
+}
+
+#table-wrapper {
+  position:relative;
+  height: 100%;
+  display: flex;
+  align-items: flex-start;
+}
+#table-scroll {
+  height:100%;
+  overflow:auto;  
+}
+#table-scroll::-webkit-scrollbar {
+  display: none;
+}
+#table-wrapper table {
+  width:100%;
 }

@@ -6,27 +6,29 @@ import {createVirtualBoard} from '../utilities/virtualBoard'
 const NUM_OF_ROWS = 8;
 const INITIAL_SETUP = 'r n b q k b n r'
 
-function Board({player_black, player_white, gameStart}) {
+function Board({player_black, player_white, gameStart, updateMovementHistory}) {
   const [boardState, setBoardState] = useState(Array(NUM_OF_ROWS).fill(Array(NUM_OF_ROWS).fill(null)));
   const [currentPiece, setCurrentPiece] = useState(null)
   const [currentLegalMoves, setCurrentLegalMoves] = useState([])
   const [playerTurn, setPlayerTurn] = useState('w')
+  
   useEffect(() => {
     const initialPieces = INITIAL_SETUP.split(' ');
     let boardSetupUpdate = [];
     initialPieces.forEach((key, index) =>{
+      // const pawn_white = getPieceObject('p', 'w', [NUM_OF_ROWS-1, index], player_white);
+      // const pawn_black = getPieceObject('p','b', [0, index], player_black)
+      // boardSetupUpdate.push({row: NUM_OF_ROWS-2, col:index, type: pawn_white})
+      // boardSetupUpdate.push({row: 1, col:index, type: pawn_black})
+      // player_white.alivePieces.push(pawn_white);
+      // player_black.alivePieces.push(pawn_black);
+
       const piece_white = getPieceObject(key, 'w', [NUM_OF_ROWS-1, index], player_white);
       const piece_black = getPieceObject(key,'b', [0, index], player_black)
-      const pawn_white = getPieceObject('p', 'w', [NUM_OF_ROWS-1, index], player_white);
-      const pawn_black = getPieceObject('p','b', [0, index], player_black)
       boardSetupUpdate.push({row: NUM_OF_ROWS-1, col:index, type: piece_white})
       boardSetupUpdate.push({row: 0, col:index, type: piece_black})
-      boardSetupUpdate.push({row: NUM_OF_ROWS-2, col:index, type: pawn_white})
-      boardSetupUpdate.push({row: 1, col:index, type: pawn_black})
       player_white.alivePieces.push(piece_white);
       player_black.alivePieces.push(piece_black);
-      player_white.alivePieces.push(pawn_white);
-      player_black.alivePieces.push(pawn_black);
     })
     for(let x = 0; x<8; x++){
 
@@ -38,6 +40,9 @@ function Board({player_black, player_white, gameStart}) {
     if(!gameStart) return false;
     if(currentPiece){
       if(currentLegalMoves.find(move => (move.join('') === position.join('') ))){
+        updateMovementHistory(
+          {row: currentPiece.row, col:currentPiece.col, type: currentPiece.type.key},
+          {row: position[0], col:position[1], type: boardState[position[0]][position[1]]?.type})
         const updatedBoard = updateState([
           {row: currentPiece.row, col:currentPiece.col, type: null},
           {row: position[0], col:position[1], type: currentPiece.type},
@@ -74,7 +79,7 @@ function Board({player_black, player_white, gameStart}) {
     const currentPlayer = playerTurn === 'w' ? player_black:player_white;
     const isInCheck = (currentPlayer.isInCheck([player_white, player_black], board))
     const numOfLegalMoves = currentPlayer.getAllLegalMoves(board).length;
-    if(isInCheck && !numOfLegalMoves) alert(`${currentPlayer} checkmated`)
+    if(isInCheck && !numOfLegalMoves) alert(`${currentPlayer.color} checkmated`)
     if(!isInCheck && !numOfLegalMoves) alert(`STALEMATE`)
   }
 
