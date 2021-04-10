@@ -198,3 +198,43 @@ table tr.active-row {
 #table-scroll::-webkit-scrollbar {
   display: none;
 }
+
+
+/* Media Queries */
+
+@media screen and (max-width: 1200px) {
+  html{
+    font-size: 12px;
+  }
+  .board{
+    width: 30rem;
+    display: grid;
+    grid-template-columns: repeat(8, 1fr);
+    grid-auto-rows: calc(30rem / 8);
+  }
+  .menu{
+    width: 25rem;
+    height: 15rem;
+    background: rgb(255, 255, 255);;
+  }
+}
+@media screen and (max-width: 650px) {
+  html{
+    font-size: 8px;
+  }
+  .board{
+    width: 80vw;
+    display: grid;
+    grid-template-columns: repeat(8, 1fr);
+    grid-auto-rows: calc(80vw / 8);
+  }
+  .menu{
+    width: 25rem;
+    height: 15rem;
+    background: rgb(255, 255, 255);;
+  }
+  .container{
+    flex-direction: column;
+    align-items: center;
+  }
+}

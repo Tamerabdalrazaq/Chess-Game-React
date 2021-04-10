@@ -2,17 +2,18 @@
 
 # dependencies
 /node_modules
+/.netlify
 /build
 /.pnp
 .pnp.js
-/.gitignore
-/netlify
+.gitignore
 
 # testing
 /coverage
 
 # production
 /build
+/.netlify
 
 # misc
 .DS_Store

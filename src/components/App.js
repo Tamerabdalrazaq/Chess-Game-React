@@ -54,7 +54,6 @@ function App() {
 function PlayerTimer({player}){
     const [pTimer, setPTimer] = useState(player.time);
     useEffect(() => player.updateTimerFunction = setPTimer , [player])
-    console.log(player.timer);
     return (
         <div className="div-player">
             <div className={`timer ${player.timer ? 'active-timer': ''}`} ><h1>{pTimer}</h1></div>
