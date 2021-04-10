@@ -47,6 +47,7 @@ export default class Player {
     }
 
     startTimer(){
+        this.updateTimerFunction(toHumanTime(this.time)+'  ');
         this.timer = setInterval(() => {
             this.time = this.time - 1;
             this.updateTimerFunction(toHumanTime(this.time))
