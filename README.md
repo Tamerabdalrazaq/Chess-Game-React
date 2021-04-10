@@ -1,7 +1,7 @@
 # Chess Project With React
 
 ## Demo
-### `mychessgame.netlify.app`
+### `https://mychessgame.netlify.app`
 
 ## Features
 ### `Implemented Features`
