@@ -56,7 +56,7 @@ export default class Player {
     stopTimer(){
         clearInterval(this.timer);
         this.timer = null;
-    }
+        this.updateTimerFunction(toHumanTime(this.time)+' ')    }
 
     editTimer(time){
         this.updateTimerFunction(toHumanTime(time));

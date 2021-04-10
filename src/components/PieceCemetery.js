@@ -2,8 +2,7 @@ import React, { useEffect, useState } from 'react'
 
 function PlayerCemetery({player}){
     const [deadPieces, updateDeadPieces] = useState([]);
-    useEffect(() => player.updateCemetry = updateDeadPieces , [])
-    console.log(deadPieces);
+    useEffect(() => player.updateCemetry = updateDeadPieces , [player])
     return(
         <div className="piece-cemetry">
             {deadPieces.map((piece, index) =>

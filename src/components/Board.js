@@ -5,23 +5,26 @@ import {createVirtualBoard} from '../utilities/virtualBoard'
 
 const NUM_OF_ROWS = 8;
 const INITIAL_SETUP = 'r n b q k b n r'
+const colKeys = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h']
 
-function Board({player_black, player_white, gameStart, updateMovementHistory}) {
+function Board({game, gameStart}) {
   const [boardState, setBoardState] = useState(Array(NUM_OF_ROWS).fill(Array(NUM_OF_ROWS).fill(null)));
   const [currentPiece, setCurrentPiece] = useState(null)
   const [currentLegalMoves, setCurrentLegalMoves] = useState([])
   const [playerTurn, setPlayerTurn] = useState('w')
-  
+  const [player_white, player_black] = game.players;
+
+  // Create the board when component mounts
   useEffect(() => {
     const initialPieces = INITIAL_SETUP.split(' ');
     let boardSetupUpdate = [];
     initialPieces.forEach((key, index) =>{
-      // const pawn_white = getPieceObject('p', 'w', [NUM_OF_ROWS-1, index], player_white);
-      // const pawn_black = getPieceObject('p','b', [0, index], player_black)
-      // boardSetupUpdate.push({row: NUM_OF_ROWS-2, col:index, type: pawn_white})
-      // boardSetupUpdate.push({row: 1, col:index, type: pawn_black})
-      // player_white.alivePieces.push(pawn_white);
-      // player_black.alivePieces.push(pawn_black);
+      const pawn_white = getPieceObject('p', 'w', [NUM_OF_ROWS-1, index], player_white);
+      const pawn_black = getPieceObject('p','b', [0, index], player_black)
+      boardSetupUpdate.push({row: NUM_OF_ROWS-2, col:index, type: pawn_white})
+      boardSetupUpdate.push({row: 1, col:index, type: pawn_black})
+      player_white.alivePieces.push(pawn_white);
+      player_black.alivePieces.push(pawn_black);
 
       const piece_white = getPieceObject(key, 'w', [NUM_OF_ROWS-1, index], player_white);
       const piece_black = getPieceObject(key,'b', [0, index], player_black)
@@ -30,19 +33,14 @@ function Board({player_black, player_white, gameStart, updateMovementHistory}) {
       player_white.alivePieces.push(piece_white);
       player_black.alivePieces.push(piece_black);
     })
-    for(let x = 0; x<8; x++){
-
-    }
     setBoardState(updateState(boardSetupUpdate))
-  }, [])
+  }, [player_black, player_white])
 
   function handleSquareClick(type, position) {
     if(!gameStart) return false;
     if(currentPiece){
       if(currentLegalMoves.find(move => (move.join('') === position.join('') ))){
-        updateMovementHistory(
-          {row: currentPiece.row, col:currentPiece.col, type: currentPiece.type.key},
-          {row: position[0], col:position[1], type: boardState[position[0]][position[1]]?.type})
+        updateMovesHistory([currentPiece.type.key, currentPiece.col, currentPiece.row], [position[1], position[0]])
         const updatedBoard = updateState([
           {row: currentPiece.row, col:currentPiece.col, type: null},
           {row: position[0], col:position[1], type: currentPiece.type},
@@ -66,6 +64,7 @@ function Board({player_black, player_white, gameStart, updateMovementHistory}) {
     }
   }
 
+  // returns a new updated array of the board
   function updateState(updatesArray){
     let stateCopy = createVirtualBoard(boardState);
     updatesArray.forEach(update => {
@@ -84,12 +83,18 @@ function Board({player_black, player_white, gameStart, updateMovementHistory}) {
   }
 
   function flipTurns(){
-    const current = playerTurn === 'w' ? player_white:player_black; 
-    const next = playerTurn === 'w' ? player_black:player_white;
+    const [current, next] = playerTurn === 'w' ? [player_white, player_black]:[player_black, player_white]; 
     current.stopTimer();
     next.startTimer();
     setPlayerTurn(playerTurn === 'w' ? 'b':'w');
-    
+  }
+
+  function updateMovesHistory(from, to){
+    let historyCopy = JSON.parse(JSON.stringify(game.movesHistory));
+    historyCopy.push([`${from[0].charAt(0).toUpperCase()}${colKeys[from[1]]}${from[2]+1}`,
+     `${colKeys[to[0]]}${to[1]+1}`])
+    game.updateHistoryFunction(historyCopy)
+    game.movesHistory=historyCopy;
   }
 
   return (
