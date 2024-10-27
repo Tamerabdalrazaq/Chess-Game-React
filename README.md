@@ -74,3 +74,10 @@ npm run build
 - Insufficient Material draw
 - Pawn Promotion
 - Some other stuff that I'm not aware of ....
+
+
+#### Contributing
+Contributions are welcome! Please open an issue or submit a pull request.
+
+#### License
+This project is licensed under the MIT License.
