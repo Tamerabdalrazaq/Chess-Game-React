@@ -26,7 +26,7 @@
 ### Installation
 1. Clone the repository:
     ```sh
-    git clone https://github.com/yourusername/Chess-Game-React.git
+    git clone https://github.com/Tamerabdalrazaq/Chess-Game-React.git
     ```
 2. Navigate to the project directory:
     ```sh
