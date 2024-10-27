@@ -1,8 +1,14 @@
 # Chess Project With React
 
-## Demo
-### `https://mychessgame.netlify.app`
 
+## Description
+
+This project is a fully functional chess game built with React. It includes all standard chess pieces and implements their movement rules, including handling checks and pins. The game features a user-friendly interface with highlighted legal moves, movement history, and a piece cemetery to display captured pieces. Additionally, it supports different game modes and includes timers for each player.
+
+
+## Demo
+
+[Play the game here](https://mychessgame.netlify.app)
 
 
 ## Key Files and Components
