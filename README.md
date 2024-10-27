@@ -41,8 +41,9 @@
 To start the development server:
 ```sh
 npm start
-Open http://localhost:3000 to view it in the browser.
 ```
+Open http://localhost:3000 to view it in the browser.
+
 ### Building  the Project
 Building the Project
 To create a production build:
